@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 690" width="1280" height="690" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#495057"/>
+    </marker>
+    <style>
+      .title { font-size: 20px; font-weight: 700; fill: #212529; }
+      .lane { font-size: 14px; font-weight: 700; fill: #495057; }
+      .h { font-size: 13px; font-weight: 700; fill: #212529; text-anchor: middle; }
+      .s { font-size: 11px; fill: #343a40; text-anchor: middle; }
+      .c { font-size: 10px; fill: #6c757d; text-anchor: middle; font-style: italic; }
+      .lbl { font-size: 10.5px; fill: #495057; font-style: italic; }
+      .edge { stroke: #495057; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+      .input { fill: #F1F3F5; stroke: #868E96; }
+      .model { fill: #E7F0FF; stroke: #3B6FD4; }
+      .rules { fill: #FFF4E0; stroke: #D99A1E; }
+      .rai { fill: #E6F6EC; stroke: #2F9E5B; }
+      .out { fill: #F3EEFF; stroke: #7950F2; }
+      .box { stroke-width: 1.6; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="690" fill="#FFFFFF"/>
+  <text x="20" y="38" class="title">Heatwave NLP — architecture (Use case KJS-CES-01, NLP course)</text>
+
+  <!-- Lanes -->
+  <rect x="10" y="66" width="1260" height="248" rx="10" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="22" y="88" class="lane">A · Advisory generation — Phase V (forecast → multilingual advisories)</text>
+  <rect x="10" y="334" width="1260" height="276" rx="10" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="22" y="356" class="lane">B · Citizen heat-report mining — supports Phase IV forecast validation</text>
+
+  <!-- ===== Lane A ===== -->
+  <rect x="20" y="110" width="160" height="76" rx="8" class="box input"/>
+  <text x="100" y="132" class="h">IMD bulletin text</text>
+  <text x="100" y="150" class="s">press releases,</text>
+  <text x="100" y="164" class="s">district warnings</text>
+
+  <rect x="200" y="110" width="160" height="76" rx="8" class="box model"/>
+  <text x="280" y="132" class="h">CRF NER</text>
+  <text x="280" y="150" class="s">LOC · DATE · TEMP</text>
+  <text x="280" y="164" class="s">DEP · SEV</text>
+  <text x="280" y="178" class="c">Cell 8 · Unit 2.3</text>
+
+  <rect x="380" y="110" width="160" height="76" rx="8" class="box input"/>
+  <text x="460" y="132" class="h">Forecast record</text>
+  <text x="460" y="150" class="s">place · Tmax · normal</text>
+  <text x="460" y="164" class="s">date</text>
+
+  <rect x="380" y="215" width="160" height="76" rx="8" class="box input"/>
+  <text x="460" y="237" class="h">IMD gridded Tmax</text>
+  <text x="460" y="255" class="s">(imdlib) or synthetic</text>
+  <text x="460" y="269" class="s">records</text>
+  <text x="460" y="283" class="c">Cell 3</text>
+
+  <rect x="560" y="110" width="160" height="76" rx="8" class="box rules"/>
+  <text x="640" y="132" class="h">IMD rule engine</text>
+  <text x="640" y="150" class="s">severity + colour</text>
+  <text x="640" y="164" class="s">(Green → Red)</text>
+  <text x="640" y="178" class="c">Cell 2</text>
+
+  <rect x="740" y="110" width="160" height="76" rx="8" class="box model"/>
+  <text x="820" y="132" class="h">Seq2Seq + attention</text>
+  <text x="820" y="150" class="s">BiLSTM encoder →</text>
+  <text x="820" y="164" class="s">LSTM decoder, beam</text>
+  <text x="820" y="178" class="c">Cell 11 · Unit 5.3</text>
+
+  <rect x="740" y="215" width="160" height="76" rx="8" class="box rules"/>
+  <text x="820" y="237" class="h">Rule-based templates</text>
+  <text x="820" y="255" class="s">en / hi / mr, with</text>
+  <text x="820" y="269" class="s">&lt;place&gt; &lt;tmax&gt; slots</text>
+  <text x="820" y="283" class="c">Cell 4 · rule-based</text>
+
+  <rect x="920" y="110" width="160" height="76" rx="8" class="box rai"/>
+  <text x="1000" y="132" class="h">Guardrails</text>
+  <text x="1000" y="150" class="s">facts · severity · script</text>
+  <text x="1000" y="164" class="s">approved sentences</text>
+  <text x="1000" y="178" class="c">Cell 12</text>
+
+  <rect x="1100" y="110" width="160" height="76" rx="8" class="box rai"/>
+  <text x="1180" y="132" class="h">Expert review</text>
+  <text x="1180" y="150" class="s">Orange / Red need a</text>
+  <text x="1180" y="164" class="s">meteorologist's OK</text>
+  <text x="1180" y="178" class="c">Cell 12 · HITL</text>
+
+  <rect x="1100" y="215" width="160" height="76" rx="8" class="box out"/>
+  <text x="1180" y="237" class="h">Advisories</text>
+  <text x="1180" y="255" class="s">4 audiences × en/hi/mr</text>
+  <text x="1180" y="269" class="s">advisories.json</text>
+  <text x="1180" y="283" class="c">Cell 14 → dashboard</text>
+
+  <path d="M180 148 H198" class="edge"/>
+  <path d="M360 148 H378" class="edge"/>
+  <path d="M460 215 V188" class="edge"/>
+  <path d="M540 148 H558" class="edge"/>
+  <path d="M720 148 H738" class="edge"/>
+  <path d="M900 148 H918" class="edge"/>
+  <path d="M1080 148 H1098" class="edge"/>
+  <path d="M1180 186 V213" class="edge"/>
+  <path d="M820 215 V188" class="edge"/>
+  <text x="826" y="205" class="lbl">trains</text>
+  <path d="M900 253 H1000 V188" class="edge"/>
+  <text x="922" y="247" class="lbl">safe fallback</text>
+
+  <!-- forecast severity feeds lane B -->
+  <path d="M640 186 V304 H1000 V378" class="edge" stroke-dasharray="5 4"/>
+  <text x="1008" y="328" class="lbl">forecast severity per place</text>
+
+  <!-- ===== Lane B ===== -->
+  <rect x="20" y="380" width="160" height="76" rx="8" class="box input"/>
+  <text x="100" y="402" class="h">Citizen posts</text>
+  <text x="100" y="420" class="s">English · Hinglish ·</text>
+  <text x="100" y="434" class="s">Devanagari, emojis</text>
+
+  <rect x="200" y="380" width="160" height="76" rx="8" class="box rules"/>
+  <text x="280" y="402" class="h">Noisy-text normaliser</text>
+  <text x="280" y="420" class="s">emoji · hottt → hot ·</text>
+  <text x="280" y="434" class="s">garmi → heat · &lt;place&gt;</text>
+  <text x="280" y="448" class="c">Cell 6 · Unit 3.2</text>
+
+  <rect x="200" y="485" width="160" height="76" rx="8" class="box rules"/>
+  <text x="280" y="507" class="h">Hashtag segmenter</text>
+  <text x="280" y="525" class="s">argmax word boundaries</text>
+  <text x="280" y="539" class="s">(Viterbi, unigram LM)</text>
+  <text x="280" y="553" class="c">Cell 5 · Units 1.2–1.3</text>
+
+  <rect x="380" y="380" width="160" height="76" rx="8" class="box model"/>
+  <text x="460" y="402" class="h">BiLSTM classifier</text>
+  <text x="460" y="420" class="s">not heat · discomfort</text>
+  <text x="460" y="434" class="s">· emergency</text>
+  <text x="460" y="448" class="c">Cell 10 · Units 5.1–5.2</text>
+
+  <rect x="380" y="485" width="160" height="76" rx="8" class="box rules"/>
+  <text x="460" y="507" class="h">WordNet + Lesk WSD</text>
+  <text x="460" y="525" class="s">lexicon baseline,</text>
+  <text x="460" y="539" class="s">multilingual dictionary</text>
+  <text x="460" y="553" class="c">Cell 9 · Unit 4</text>
+
+  <rect x="560" y="485" width="160" height="76" rx="8" class="box rules"/>
+  <text x="640" y="507" class="h">Place finder</text>
+  <text x="640" y="525" class="s">gazetteer + Marathi /</text>
+  <text x="640" y="539" class="s">Hindi FST morphology</text>
+  <text x="640" y="553" class="c">Cell 7 · Units 2.1–2.2</text>
+
+  <rect x="740" y="380" width="160" height="76" rx="8" class="box input"/>
+  <text x="820" y="402" class="h">Signals per place</text>
+  <text x="820" y="420" class="s">discomfort / emergency</text>
+  <text x="820" y="434" class="s">post counts</text>
+  <text x="820" y="448" class="c">Cell 13</text>
+
+  <rect x="920" y="380" width="160" height="76" rx="8" class="box rai"/>
+  <text x="1000" y="402" class="h">Forecast vs citizens</text>
+  <text x="1000" y="420" class="s">corroborated, or</text>
+  <text x="1000" y="434" class="s">verify with AWS</text>
+  <text x="1000" y="448" class="c">Cell 13</text>
+
+  <rect x="1100" y="380" width="160" height="76" rx="8" class="box out"/>
+  <text x="1180" y="402" class="h">Validation flags</text>
+  <text x="1180" y="420" class="s">citizen_signals.json</text>
+  <text x="1180" y="434" class="s">for the dashboard</text>
+  <text x="1180" y="448" class="c">Cell 14</text>
+
+  <path d="M180 418 H198" class="edge"/>
+  <path d="M280 485 V458" class="edge"/>
+  <path d="M360 418 H378" class="edge"/>
+  <path d="M460 485 V458" class="edge"/>
+  <text x="466" y="475" class="lbl">baseline</text>
+  <path d="M540 418 H738" class="edge"/>
+  <text x="590" y="412" class="lbl">label per post</text>
+  <path d="M720 523 H820 V458" class="edge"/>
+  <text x="728" y="517" class="lbl">places</text>
+  <path d="M100 456 V590 H640 V563" class="edge"/>
+  <text x="110" y="584" class="lbl">raw text (Latin + Devanagari)</text>
+  <path d="M900 418 H918" class="edge"/>
+  <path d="M1080 418 H1098" class="edge"/>
+
+  <!-- Legend -->
+  <g font-size="12" fill="#343a40">
+    <rect x="20" y="636" width="18" height="14" rx="3" class="box input"/><text x="44" y="648">data / input</text>
+    <rect x="150" y="636" width="18" height="14" rx="3" class="box model"/><text x="174" y="648">learned model</text>
+    <rect x="290" y="636" width="18" height="14" rx="3" class="box rules"/><text x="314" y="648">rules &amp; lexical knowledge</text>
+    <rect x="490" y="636" width="18" height="14" rx="3" class="box rai"/><text x="514" y="648">Responsible AI / human-in-the-loop</text>
+    <rect x="760" y="636" width="18" height="14" rx="3" class="box out"/><text x="784" y="648">output</text>
+    <text x="870" y="648" fill="#6c757d">"Cell N" = cell in heatwave_nlp.py / .ipynb</text>
+  </g>
+</svg>

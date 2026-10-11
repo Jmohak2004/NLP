@@ -1,0 +1,18 @@
+{
+  "Chandrapur": {
+    "HEAT_EMERGENCY": 1,
+    "HEAT_DISCOMFORT": 1
+  },
+  "Nagpur": {
+    "HEAT_EMERGENCY": 2
+  },
+  "Mumbai": {
+    "NOT_HEAT": 2
+  },
+  "Jaipur": {
+    "HEAT_DISCOMFORT": 1
+  },
+  "Pune": {
+    "HEAT_DISCOMFORT": 1
+  }
+}
